@@ -1,0 +1,13 @@
+
+local mt = getrawmetatable(game)
+local old = mt.__namecall
+setreadonly(mt,false)
+mt.__namecall=newcclosure(function(self,...)
+    local args = {...}
+    local method = getnamecallmethod()
+    if method=="FireServer" and args[1]=="TeleportDetect" then
+        args[1]=nil
+        return self.FireServer(self,unpack(args))
+    end
+    return old(self,...)
+end)
